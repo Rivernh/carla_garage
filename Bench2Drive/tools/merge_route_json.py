@@ -33,10 +33,11 @@ def merge_route_json(folder_path):
         "records": merged_records
     }
 
+    cnt = 25
     merged_data = {
         "_checkpoint": _checkpoint,
-        "driving score": sum(driving_score) / 220,
-        "success rate": success_num / 220,
+        "driving score": sum(driving_score) / cnt,
+        "success rate": success_num / cnt,
         "eval num": len(driving_score),
     }
 

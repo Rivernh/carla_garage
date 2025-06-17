@@ -22,8 +22,13 @@ class TransfuserBackbone(nn.Module):
     super().__init__()
     self.config = config
 
-    self.image_encoder = timm.create_model(config.image_architecture, pretrained=True, features_only=True)
-
+    bkb_path = "/opt/data/private/jurunkun-flash/ylh/b2d_workspace/carla_garage_2/r032.bin"
+    try:
+        self.image_encoder = timm.create_model(config.image_architecture, pretrained=True, features_only=True)
+    except Exception as e:
+        print(f"Failed to load image encoder with error: {e}")
+        self.image_encoder = timm.create_model(config.image_architecture, pretrained=True, features_only=True,
+                                                pretrained_cfg_overlay=dict(file=bkb_path))
     self.lidar_video = False
     if config.lidar_architecture in ('video_resnet18', 'video_swin_tiny'):
       self.lidar_video = True

@@ -116,6 +116,7 @@ class LeaderboardEvaluator(object):
         # Setup the simulation
         self.client, self.client_timeout, self.traffic_manager = self._setup_simulation(args)
 
+        print("carla connected!")
         # dist = pkg_resources.get_distribution("carla")
         # if dist.version != 'leaderboard':
         #     if LooseVersion(dist.version) < LooseVersion('0.9.10'):
@@ -207,10 +208,10 @@ class LeaderboardEvaluator(object):
         self.carla_path = os.environ["CARLA_ROOT"]
         args.port = find_free_port(args.port)
         cmd1 = f"{os.path.join(self.carla_path, 'CarlaUE4.sh')} -RenderOffScreen -nosound -carla-rpc-port={args.port} -graphicsadapter={args.gpu_rank}"
-        self.server = subprocess.Popen(cmd1, shell=True, preexec_fn=os.setsid)
-        print(cmd1, self.server.returncode, flush=True)
-        atexit.register(os.killpg, self.server.pid, signal.SIGKILL)
-        time.sleep(60)
+        # self.server = subprocess.Popen(cmd1, shell=True, preexec_fn=os.setsid)
+        # print(cmd1, self.server.returncode, flush=True)
+        # atexit.register(os.killpg, self.server.pid, signal.SIGKILL)
+        time.sleep(30)
             
         attempts = 0
         num_max_restarts = 20
@@ -515,7 +516,7 @@ def main():
 
     # general parameters
     parser = argparse.ArgumentParser(description=description, formatter_class=RawTextHelpFormatter)
-    parser.add_argument('--host', default='localhost',
+    parser.add_argument('--host', default='10.10.6.64',
                         help='IP of the host server (default: localhost)')
     parser.add_argument('--port', default=2000, type=int,
                         help='TCP port to listen to (default: 2000)')
